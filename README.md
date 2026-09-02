@@ -1,7 +1,7 @@
 # ryo-ai-org-public
 
 AI を「単発のアシスタント」ではなく、役割を分けた組織として運用するための、規律とメソッドのスキル集です。
-司令塔（Judge）と実行席（Worker）の分離、判断の構造化（Fact → Insight → Decision → Proposal）、実行前ゲート、検収と振り返りの型、記憶の運用——日々の実務で繰り返し効いた作法を 25 本のスキルとして切り出しています。
+司令塔（Judge）と実行席（Worker）の分離、判断の構造化（Fact → Insight → Decision → Proposal）、実行前ゲート、検収と振り返りの型、記憶の運用——日々の実務で繰り返し効いた作法を 24 本のスキルとして切り出しています。
 
 - ライセンス: Apache License 2.0（`LICENSE`）。第三者帰属は `NOTICE`
 - 対象環境: Claude Code などの、`SKILL.md` を読み込めるエージェント実行環境
@@ -17,11 +17,11 @@ AI を「単発のアシスタント」ではなく、役割を分けた組織�
 | [docs/02-skill-design.md](docs/02-skill-design.md) | スキルの粒度、description（トリガー・発火制限・キーワード）の書き方、登録簿と運用、判例から規律への昇格 |
 | [docs/03-judge-worker-harness.md](docs/03-judge-worker-harness.md) | Judge/Worker の役割分離、委任指示書と検収の型、hooks による規律の機械化、失敗を規律に戻す仕組み |
 
-## 収録スキル（25 本）
+## 収録スキル（24 本）
 
 用途別に 3 つに分けています。各行の説明は人が書いたものです（スキル本文の description とは別）。
 
-### 判断と規律（10 本）
+### 判断と規律（9 本）
 
 | スキル | 何をするか |
 |---|---|
@@ -32,9 +32,8 @@ AI を「単発のアシスタント」ではなく、役割を分けた組織�
 | `step-by-step-strict-execution` | 複数ステップが列挙された指示を、1 ステップずつ実行・確認し、先回りや省略をしない |
 | `verbatim-quote-diff-interpretation-discipline` | 前回の応答が差分つきで引用し返された時、それが承認・部分修正・再検討要求のどれかを判定する |
 | `explanation-bridge` | 「現象 → 結論」に飛びがちな説明に、前提・ゴール・判断基準を復元して、受け手に伝わる順序へ組み替える |
-| `review-agent-essence` | スキルやエージェント定義そのものの品質をレビューする（判断内容ではなく定義の出来を見る）【要確認】 |
-| `save-instruction` | 委任指示書を所定の章立て（背景・目的・範囲・手順・制約・報告様式）でファイルに保存する【要確認】 |
-| `jikai-reflection` | 【要確認: 1 行説明を記入】 |
+| `review-agent-essence` | SKILL.md を 5 軸（トリガー精度・指示の明確さ・出力品質・連携整合性・保守性）で定量評価し、改善提案を出す読み取り専用のレビューエンジン |
+| `save-instruction` | Judge が起草した委任指示書を、日付とトピック入りの命名規約で保存し、SHA-256 と Worker への投入文を表示する 1 コマンド |
 
 ### 実装と設計（8 本）
 
@@ -54,9 +53,9 @@ AI を「単発のアシスタント」ではなく、役割を分けた組織�
 | スキル | 何をするか |
 |---|---|
 | `memory-discipline` | 長期メモリに何を残すべきかを 3 問テストと禁止カテゴリで判定し、案件固有の情報が侵食するのを防ぐ |
-| `memory-pull` | グローバルの MEMORY を読み込み、セッションに取り込む【要確認】 |
-| `memory-push` | セッションで得た知見をプロジェクトの MEMORY に書き戻す【要確認】 |
-| `memory-gc` | プロジェクトの MEMORY から古い・重複した項目を整理する【要確認】 |
+| `memory-pull` | グローバルの MEMORY.md にある知識を、現在のプロジェクトへ注入する |
+| `memory-push` | プロジェクトの MEMORY.md に溜まった集合知を、グローバルの MEMORY.md へ昇格させる |
+| `memory-gc` | 肥大化したプロジェクトの MEMORY.md を圧縮・整理する（ガベージコレクション） |
 | `structured-doc-frontmatter` | 引き継ぎ文書や指示書の frontmatter（project・decisions 等）の構造規約。後から索引・検索できる形に揃える |
 | `notion-io-discipline` | Notion へ書き込む時の保存先判定・命名・更新の規律 |
 | `feedback-loop` | チャット基盤のフィードバック用チャンネルを巡回してトリアージする（元は特定環境向け。汎用化の余地あり） |
