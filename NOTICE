@@ -1,0 +1,16 @@
+ryo-ai-org-public
+Copyright 2026 Ryosuke Nakamizo
+
+This product includes software developed by Ryosuke Nakamizo.
+Licensed under the Apache License, Version 2.0. See LICENSE for the full text.
+
+--------------------------------------------------------------------------------
+Third-party attribution
+--------------------------------------------------------------------------------
+
+skills/eli5-visual-explainer-v1
+    Built on the "eli5" skill distributed in anthropics/claude-plugins-community
+    (https://github.com/anthropics/claude-plugins-community/tree/main/eli5),
+    licensed under the Apache License, Version 2.0.
+    Modifications by Ryosuke Nakamizo add diagram generation and a layout check.
+    The attribution statements contained in that directory are retained as-is.
