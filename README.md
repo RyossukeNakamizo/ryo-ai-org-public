@@ -1,64 +1,78 @@
 # ryo-ai-org-public
 
-AI を「単発のアシスタント」ではなく **役割を分けた組織** として運用するための、規律とメソッドのスキル集です。
-司令塔・実装・独立検証・調査という席の分離、判断の構造化（Fact→Insight→Decision→Proposal）、
-検収と振り返りの型、記憶の運用といった、日々の実務で繰り返し効いた作法を 25 本のスキルとして切り出しています。
+AI を「単発のアシスタント」ではなく、役割を分けた組織として運用するための、規律とメソッドのスキル集です。
+司令塔（Judge）と実行席（Worker）の分離、判断の構造化（Fact → Insight → Decision → Proposal）、実行前ゲート、検収と振り返りの型、記憶の運用——日々の実務で繰り返し効いた作法を 25 本のスキルとして切り出しています。
 
-- ライセンス: Apache License 2.0（`LICENSE`）／第三者帰属は `NOTICE`
-- 想定利用: Claude Code などのエージェント環境に `skills/<name>/SKILL.md` として読み込ませる
-- 収録: 25 本（対話エージェント向け 16 本 ＋ チャット運用向け 9 本）
+- ライセンス: Apache License 2.0（`LICENSE`）。第三者帰属は `NOTICE`
+- 対象環境: Claude Code などの、`SKILL.md` を読み込めるエージェント実行環境
+- 想定読者: 自分のコーディングエージェントに規律と役割分担を持たせたい技術者
 
-## 収録スキル
+## まず読む（docs/）
 
-### エージェント運用系（出自: `skills/`）— 16 本
+スキルの背後にある考え方を 3 本にまとめています。スキルを個別に使う前に、ここから読むことを勧めます。
 
-| スキル | 概要 |
+| 文書 | 内容 |
 |---|---|
-| `explanation-bridge` | | ユーザーの思考特性（現象→本質→ゴール→評価基準→制約→最適解を高速で走らせ、 発話では中間を省略して「現象→結論」だけが出る）に起因する 「話が飛ぶ」「前提未共有」問題を補正するスキル。 |
-| `preemptive-challenger` | | Claudeが回答・評価・提案を出す前に、自分の判断の盲点・弱点・反論を先に列挙するスキル。 |
-| `senior-software` | Act as a senior software engineer for design, implementation, and refactoring in one workflow. |
-| `senior-qa` | Senior QA engineer workflow combining code review and debugging into one pass. |
-| `memory-gc` | プロジェクトMEMORY. |
-| `memory-pull` | グローバル(~/memory/MEMORY. |
-| `memory-push` | プロジェクトMEMORY. |
-| `frontend-mockup` | > 自然言語の要望または手書きメモ・ワイヤーフレーム画像から、Webフロントエンドの 動くモックアップ（イメージファイル/HTML）を最短で生成するスキル。 |
-| `aws-multicloud-mentor` | > AWSの学習・設計・実装を初級から上級まで支援するメンタースキル。 |
-| `gcp-multicloud-mentor` | > GCP（Google Cloud）の学習・設計・実装を初級から上級まで支援するメンタースキル。 |
-| `structured-doc-frontmatter` | | 統一 frontmatter + 8セクション（Goal/Context/Decisions/Architecture/Evaluation/Failure/Reusable Pattern/Next Action）… |
-| `save-instruction` | | chat Claude（Judge）が起草した Worker 指示書全文を、クリップボードから Downloads 受け渡し規約（claude_YYYY-MM-DD_<topic>_worker_instructio… |
-| `web-app-architecture` | > Webアプリの構成（フロント×BFF×バックエンド×接続方式×レンダリング×認証×デプロイ）を 要件から選定するアーキテクチャ判断スキル。 |
-| `graph-de` | | インタラクティブなグラフ・チャート・データビジュアライゼーションをウィジェットとして表示するスキル。 |
-| `review-agent-essence` | | Claude Codeグローバルスキルの品質レビューエンジン。 |
-| `eli5-visual-explainer-v1` | むずかしい話を「まったく知らない人」向けに、大きな図と少ない文字の1枚HTMLで説明する係。 |
+| [docs/01-claude-md-design.md](docs/01-claude-md-design.md) | CLAUDE.md を短く保ち、規律を hooks とスキルへ逃がす設計。段階的開示をスキル群で実装する考え方 |
+| [docs/02-skill-design.md](docs/02-skill-design.md) | スキルの粒度、description（トリガー・発火制限・キーワード）の書き方、登録簿と運用、判例から規律への昇格 |
+| [docs/03-judge-worker-harness.md](docs/03-judge-worker-harness.md) | Judge/Worker の役割分離、委任指示書と検収の型、hooks による規律の機械化、失敗を規律に戻す仕組み |
 
-### チャット運用系（出自: `chat-only/`）— 9 本
+## 収録スキル（25 本）
 
-| スキル | 概要 |
+用途別に 3 つに分けています。各行の説明は人が書いたものです（スキル本文の description とは別）。
+
+### 判断と規律（10 本）
+
+| スキル | 何をするか |
 |---|---|
-| `premise-pre-verification` | chat Claude が応答内に未確認前提 (numeric / structural / semantic / channel / improvement premise の 5 系統) を embed することを構… |
-| `structural-weakness-typology` | chat Claude が発火する構造的弱点 12 類型を一元的に参照する類型カタログ skill。 |
-| `step-by-step-strict-execution` | chat Claude が handoff MD / Worker directive / multi-step task 等で複数 step を literal 列挙した局面で、1 step ずつ literal 実行… |
-| `verbatim-quote-diff-interpretation-discipline` | | ユーザー が前 turn の chat Claude 応答を verbatim quote 形式で再掲しつつ一部に差分 (diff) を含めて返してきた局面で、その diff signal が「承認 + 部分修正」「… |
-| `jikai-reflection` | | 日々の自戒と感謝のリフレクションを促すスキル。 |
-| `feedback-loop` | Slack #project-feedback（Claude Code Loop サンドボックス）の巡回トリアージを1語で発火する。 |
-| `notion-io-discipline` | | Chat Claude が Notion connector 経由で書き込み系操作（create / update）を行う際の、 保存先判定・命名規約・更新規律を強制する規律スキル。 |
-| `plan-first-gate` | | 「最短でゴールを組み立てて」型の曖昧指示による誤走・手戻りを防ぐ実行前ゲート。 |
-| `memory-discipline` | | userMemories (memory_user_edits tool) への entry 追加・削除・編集・整理時の判定規律スキル。 |
+| `plan-first-gate` | 曖昧な指示で走り出す前に、ゴール解釈・完了基準・手順・影響範囲を 5 行で提示し、Go を得てから実行する |
+| `preemptive-challenger` | 回答・提案を出す前に、その判断の盲点・弱点・反論を自分で先に列挙する（明示呼出時のみ） |
+| `premise-pre-verification` | 応答に未確認の前提（数値・構造・意味・系統・改善提案の 5 系統）を埋め込むことを、生成前に検証して防ぐ |
+| `structural-weakness-typology` | 繰り返し起きる構造的な失敗 12 類型のカタログ。設計・判断・レビューの各局面で照合する |
+| `step-by-step-strict-execution` | 複数ステップが列挙された指示を、1 ステップずつ実行・確認し、先回りや省略をしない |
+| `verbatim-quote-diff-interpretation-discipline` | 前回の応答が差分つきで引用し返された時、それが承認・部分修正・再検討要求のどれかを判定する |
+| `explanation-bridge` | 「現象 → 結論」に飛びがちな説明に、前提・ゴール・判断基準を復元して、受け手に伝わる順序へ組み替える |
+| `review-agent-essence` | スキルやエージェント定義そのものの品質をレビューする（判断内容ではなく定義の出来を見る）【要確認】 |
+| `save-instruction` | 委任指示書を所定の章立て（背景・目的・範囲・手順・制約・報告様式）でファイルに保存する【要確認】 |
+| `jikai-reflection` | 【要確認: 1 行説明を記入】 |
 
-いずれも本リポジトリでは `skills/` 配下に統一して配置しています。上表の「出自」は、元の運用環境で
-エージェント側（`skills/`）に置いていたか、チャット側（`chat-only/`）に置いていたかの区別です。
+### 実装と設計（8 本）
+
+| スキル | 何をするか |
+|---|---|
+| `senior-software` | 設計・実装・リファクタリングを一つのワークフローで進めるシニアエンジニア役（英語） |
+| `senior-qa` | コードレビューとデバッグを一度の通し作業で行う QA 役（英語） |
+| `frontend-mockup` | 自然言語の要望や手書きメモから、動くモックアップ（単一 HTML）を最短で作る。解釈の確認リスト付き初版 → 往復修正 |
+| `web-app-architecture` | 要件から Web アプリの構成（フロント・BFF・バックエンド・認証・デプロイ）を、2 案比較で選定する |
+| `aws-multicloud-mentor` | Azure 経験者向けに「Azure → AWS 対訳」で AWS を学ぶメンター。料金など変動情報は検索確認を前提にする |
+| `gcp-multicloud-mentor` | 同じ考え方の GCP 版。3 クラウドの選定判断まで扱う |
+| `graph-de` | スライダーで値を動かせるインタラクティブなグラフ（Chart.js）を生成する |
+| `eli5-visual-explainer-v1` | 難しい話を、図中心・文字少なめの 1 枚 HTML で説明する。文字量は機械的に検問する（第三者成果物の派生。帰属は `NOTICE`） |
+
+### 運用と記憶（7 本）
+
+| スキル | 何をするか |
+|---|---|
+| `memory-discipline` | 長期メモリに何を残すべきかを 3 問テストと禁止カテゴリで判定し、案件固有の情報が侵食するのを防ぐ |
+| `memory-pull` | グローバルの MEMORY を読み込み、セッションに取り込む【要確認】 |
+| `memory-push` | セッションで得た知見をプロジェクトの MEMORY に書き戻す【要確認】 |
+| `memory-gc` | プロジェクトの MEMORY から古い・重複した項目を整理する【要確認】 |
+| `structured-doc-frontmatter` | 引き継ぎ文書や指示書の frontmatter（project・decisions 等）の構造規約。後から索引・検索できる形に揃える |
+| `notion-io-discipline` | Notion へ書き込む時の保存先判定・命名・更新の規律 |
+| `feedback-loop` | チャット基盤のフィードバック用チャンネルを巡回してトリアージする（元は特定環境向け。汎用化の余地あり） |
+
+## 使い方
+
+1. 使いたいスキルのディレクトリを、自分の環境のスキル置き場（Claude Code なら `.claude/skills/` または `~/.claude/skills/`）にコピーする。
+2. 各 `SKILL.md` の冒頭 description に、発火条件（トリガー）と発火してはいけない条件（発火制限）が書いてある。自分の運用に合わせて調整する。
+3. 「判断と規律」のスキルは、CLAUDE.md に書くのではなく、スキルとして必要な時だけ読まれる前提で設計している。CLAUDE.md 側には最小限の指示だけを置く（[docs/01](docs/01-claude-md-design.md)）。
 
 ## 公開にあたっての処理
 
-公開前に、案件コード・顧客名・担当者名・利用者名・絶対パスを機械的に置換しています
-（それぞれ `〈案件〉` `〈顧客〉` `〈担当者〉` `ユーザー` `~` に置換）。
-置換の痕跡が文意を損ねている箇所がありうるため、実運用に取り込む際は各スキルの記述を一読してください。
+公開前に、案件コード・顧客名・担当者名・利用者名・絶対パスを機械的に置換しています（それぞれ `〈案件〉` `〈顧客〉` `〈担当者〉` `ユーザー` `~`）。置換の痕跡が文意を損ねている箇所がありうるため、実運用に取り込む際は各スキルの記述を一読してください。
 
-`skills/eli5-visual-explainer-v1` は第三者の成果物を土台とする派生物です。帰属は `NOTICE` および
-当該ディレクトリ内の記述を参照してください。
+`skills/eli5-visual-explainer-v1` は第三者の成果物を土台とする派生物です。帰属は `NOTICE` と当該ディレクトリ内の記述を参照してください。
 
 ## 免責
 
-本スキル集は特定の業務・組織での運用経験から抽出したものであり、あらゆる文脈での有効性を保証するものでは
-ありません。Apache License 2.0 の定めるとおり、無保証（AS IS）で提供されます。利用によって生じた結果に
-ついて、著作権者は責任を負いません。
+本スキル集は特定の業務・組織での運用経験から抽出したものであり、あらゆる文脈での有効性を保証するものではありません。Apache License 2.0 の定めるとおり、無保証（AS IS）で提供されます。利用によって生じた結果について、著作権者は責任を負いません。
