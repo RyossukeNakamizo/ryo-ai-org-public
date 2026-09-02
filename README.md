@@ -16,6 +16,7 @@ AI を「単発のアシスタント」ではなく、役割を分けた組織�
 | [docs/01-claude-md-design.md](docs/01-claude-md-design.md) | CLAUDE.md を短く保ち、規律を hooks とスキルへ逃がす設計。段階的開示をスキル群で実装する考え方 |
 | [docs/02-skill-design.md](docs/02-skill-design.md) | スキルの粒度、description（トリガー・発火制限・キーワード）の書き方、登録簿と運用、判例から規律への昇格 |
 | [docs/03-judge-worker-harness.md](docs/03-judge-worker-harness.md) | Judge/Worker の役割分離、委任指示書と検収の型、hooks による規律の機械化、失敗を規律に戻す仕組み |
+| [docs/04-reference-setup.md](docs/04-reference-setup.md) | CLAUDE.md・rules・skills・agents・settings（permissions／sandbox）・hooks・auto memory の 7 層を、何を置くか／誰が守らせるかで整理した参照構成と最小実例 |
 
 ## 収録スキル（24 本）
 
